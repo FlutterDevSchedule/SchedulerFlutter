@@ -26,6 +26,11 @@ class ImportElement extends StatelessWidget {
                   'qwerqwer',
                   style: TextStyle(color: Colors.red),
                 ),
+              ),
+              Expanded(
+                child: Text(
+                  'Rafal Test'
+                )
               )
             ],
           )
