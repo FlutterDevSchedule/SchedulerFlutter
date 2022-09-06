@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:http/io_client.dart';
 import 'package:http/http.dart';
+import 'appointment_bar.dart';
 import 'logged_in_page.dart';
 import 'main.dart';
 
@@ -10,8 +11,9 @@ import 'package:googleapis/calendar/v3.dart' as googleAPI;
 class AddEventToCallendar {
   calendarInser(title, startTime, endTime, user) async {
     if (user != null) {
-      final GoogleAPIClient httpClient = GoogleAPIClient(await user.authHeaders);
-      googleAPI.CalendarApi calendarAPI = googleAPI.CalendarApi(httpClient);
+      // final GoogleAPIClient httpClient = GoogleAPIClient(await user.authHeaders);
+      // googleAPI.CalendarApi calendarAPI = googleAPI.CalendarApi(httpClient);
+      googleAPI.CalendarApi calendarAPI = user;
       String calendarId = "primary";
       googleAPI.Event event = googleAPI.Event();
 
@@ -38,6 +40,9 @@ class AddEventToCallendar {
         calendarAPI.events.insert(event, calendarId).then((value) {
           print("ADDEDDD_________________${value.status}");
           if (value.status == "confirmed") {
+            // AppoitmentBar test = const AppoitmentBar (user: null,);
+            // _AppoitmentBarState test = _AppoitmentBarState
+            // test.getDataSource();
             log('Event added in google calendar');
           } else {
             log("Unable to add event in google calendar");

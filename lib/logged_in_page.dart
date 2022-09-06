@@ -11,7 +11,7 @@ import 'main.dart';
 import 'inserted_component.dart';
 
 class LoggedInPage extends StatefulWidget {
-  final GoogleSignInAccount user;
+  final googleAPI.CalendarApi user;
 
   const LoggedInPage({
     Key? key,
