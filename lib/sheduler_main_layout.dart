@@ -112,37 +112,12 @@ class _MainLayout extends State<MainLayout> {
                                               fontWeight: FontWeight.bold)),
                                     )))
                           ])),
-                  Expanded(flex: 3, child: Container(child: AppoitmentBar())),
-
-                                child: Container(
-                                    color: Color(0xFF20B878),
-                                    child:  Center(
-                                      child: LoggedInPage(user: widget.calendarApi,),
-                                    ))),
-                            Expanded(
-                                flex: 2,
-                                child: Container(
-                                  color: Color(0xFF003F2B),
-                                ))
+                  Expanded(flex: 3,
+                      child: Container(child: AppoitmentBar(
+                          user: widget.user, calendarApi: widget.calendarApi))),
                           ])),
-                  Expanded(
-                      flex: 3,
+          ]),
 
-                      child: Container(
-                          color: Colors.white,
-                          child:AppoitmentBar(user: widget.user,calendarApi: widget.calendarApi,)
-                        // child: TextButton(
-                        //     onPressed: () {
-                        //       eventManagment.getEvents(widget.user);
-                        //     },
-                        //     child: const Text('get Events',
-                        //         style: TextStyle(color: Colors.black))),
-                      )
-                  ),
-
-                ])),
-          ],
-        ),
         floatingActionButton: FloatingActionButton.large(
             onPressed: () =>
                 showDialog<String>(
@@ -152,7 +127,7 @@ class _MainLayout extends State<MainLayout> {
                           title: const Text('Create new event'),
                           content: Container(
                               width: 900,
-                              child: LoggedInPage(user: widget.user,)),
+                              child: LoggedInPage(user: widget.calendarApi,)),
                           actions: <Widget>[
                             TextButton(
                               onPressed: () => Navigator.pop(context, 'Cancel'),
