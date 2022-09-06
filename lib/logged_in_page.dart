@@ -11,7 +11,7 @@ import 'main.dart';
 import 'inserted_component.dart';
 
 class LoggedInPage extends StatefulWidget {
-  final GoogleSignInAccount user;
+  final googleAPI.CalendarApi user;
 
   const LoggedInPage({
     Key? key,
@@ -42,112 +42,62 @@ class _LoggedInPage extends State<LoggedInPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text('Logged in'),
-          centerTitle: true,
-          actions: [
-            TextButton(
-                onPressed: () async {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => MyHomePage(
-                      title: '',
-                    ),
-                  ));
-                },
-                child: Text('logout'),
-                style: TextButton.styleFrom(primary: Colors.amber)),
-            // , style: TextStyle(color: Colors.white),))
-          ],
+          // appBar: AppBar(
+          //   centerTitle: true,
+          //   actions: [
+          // TextButton(
+          //     onPressed: () async {
+          //       Navigator.of(context).pushReplacement(MaterialPageRoute(
+          //         builder: (context) => MyHomePage(
+          //           title: '',
+          //         ),
+          //       ));
+          //     },
+          //     child: Text('logout'),
+          //     style: TextButton.styleFrom(primary: Colors.amber)),
+          // , style: TextStyle(color: Colors.white),))
+          //   ],
+          // ),
+
+          body: Container(
+        child: Column(
+            children: <Widget>[
+          Row(children: <Widget>[
+            Expanded(
+              child: TextButton(
+                  onPressed: () {
+                    DatePicker.showDateTimePicker(context,
+                        showTitleActions: true,
+                        minTime: DateTime(2019, 3, 5),
+                        maxTime: DateTime(2200, 6, 7),
+                        onChanged: (date) {
+                      print('change $date');
+                    }, onConfirm: (date) {
+                      setState(() {
+                        this.startTime = date;
+                      });
+                    },
+                        currentTime: DateTime.now(),
+                        locale: LocaleType.en);
+                  },
+                  child: const Text(
+                    'Event Start Time :',
+                    style: TextStyle(
+                        color: Colors.black,
+                    fontSize: 20),
+                  )),
+            ),
+            Expanded(child: Text('$startTime'))
+          ]),
+              Expanded(
+                  child: TextField(
+          controller: _eventName,
+          decoration: const InputDecoration(hintText: 'enter Event Name'),
         ),
-        body: Container(
-          alignment: Alignment.center,
-          color: Colors.blue,
+        )
+        ]),
+      ));
 
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                children: <Widget>[
-                  Expanded(
-                      child: TextButton(
-                          onPressed: () {
-                            DatePicker.showDateTimePicker(context,
-                                showTitleActions: true,
-                                minTime: DateTime(2019, 3, 5),
-                                maxTime: DateTime(2200, 6, 7),
-                                onChanged: (date) {
-                              print('change $date');
-                            }, onConfirm: (date) {
-                              setState(() {
-                                this.startTime = date;
-                              });
-                            },
-                                currentTime: DateTime.now(),
-                                locale: LocaleType.en);
-                          },
-                          child: Text(
-                            'Event Start Time',
-                            style: TextStyle(color: Colors.white),
-                          ))),
-                  Expanded(child: Text('$startTime')),
-                  Expanded(child: Text('Test',style: TextStyle(color: Colors.red),)),
-                  Expanded(child: ImportElement())
-
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  TextButton(
-                      onPressed: () {
-                        DatePicker.showDateTimePicker(context,
-                            showTitleActions: true,
-                            minTime: DateTime(2019, 3, 5),
-                            maxTime: DateTime(2200, 6, 7), onChanged: (date) {
-                          print('change $date');
-                        }, onConfirm: (date) {
-                          setState(() {
-                            this.endTime = date;
-                          });
-                        }, currentTime: DateTime.now(), locale: LocaleType.en);
-                      },
-                      child: Text(
-                        'Event End Time',
-                        style: TextStyle(color: Colors.white),
-                      )),
-                  Text('$endTime'),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: TextField(
-                  controller: _eventName,
-                  decoration: InputDecoration(hintText: 'enter Event Name'),
-                ),
-              ),
-              Row(
-                children: [
-                  TextButton(
-                      child: Text(
-                        'insert',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () {
-                        addToCallendar.calendarInser(
-                            _eventName.text, startTime, endTime, widget.user);
-                      }),
-                  TextButton(
-                      onPressed: () {
-                        eventManagment.getEvents(widget.user);
-                      },
-                      child: Text('get Events',
-                          style: TextStyle(color: Colors.white)))
-                ],
-              ),
-            ],
-          ),
-
-        ),
-      );
 }
 
 class GoogleAPIClient extends IOClient {
