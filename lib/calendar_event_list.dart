@@ -33,7 +33,7 @@ class EventManagment {
         {
           events.items?.forEach((event) => {
             // googleAPI.EventDateTime(dateTime: "${event.start}").
-            // print(event.toJson()),
+            print(event.toJson()),
              eventTime = event.start!.dateTime,
             print("EVENT ${event.start!.dateTime?.add(timeZoneOff)} ${event.summary} To meet: ${toTime.difference(eventTime!).inMinutes}")
           })});

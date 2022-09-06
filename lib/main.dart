@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/calendar/v3.dart';
 import 'logged_in_page.dart';
+import 'sheduler_main_layout.dart';
 
 
 void main() async{
@@ -71,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-              builder: (context) => LoggedInPage(user: user)));
+              builder: (context) => MainLayout(user: user)));
     }
   }
 }

@@ -62,6 +62,7 @@ class _LoggedInPage extends State<LoggedInPage> {
         body: Container(
           alignment: Alignment.center,
           color: Colors.blue,
+
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -144,6 +145,7 @@ class _LoggedInPage extends State<LoggedInPage> {
               ),
             ],
           ),
+
         ),
       );
 }
