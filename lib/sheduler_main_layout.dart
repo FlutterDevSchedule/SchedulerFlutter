@@ -23,7 +23,6 @@ class MainLayout extends StatefulWidget {
 class _MainLayout extends State<MainLayout> {
   EventManagment eventManagment = EventManagment();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,6 +38,78 @@ class _MainLayout extends State<MainLayout> {
                           children: <Widget>[
                             Expanded(
                                 flex: 8,
+
+                                // child: Container(
+                                //     color: Color(0xFF20B878),
+                                //     child:  Center(
+                                //       child: LoggedInPage(user: widget.user,),
+                                //     ))
+                                child: Container(
+                                  color: Color(0xFF20B878),
+                                  child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
+                                      children: <Widget>[
+                                        const Expanded(
+                                          //child: Container(
+                                            child: Padding(
+                                              padding: EdgeInsets.all(10.0),
+                                              child: Text('',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 25,
+                                                  )),
+                                            )),
+                                        Expanded(
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: const <Widget>[
+                                                  Padding(
+                                                    padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                                                    child: Expanded(
+                                                        child: Text(
+                                                            'Sala konferencyjna',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 25,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w600))),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                                                    child: Expanded(
+                                                      child: Text(
+                                                        'Analize room',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 70,
+                                                          fontWeight: FontWeight
+                                                              .w800,),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ]))
+                                      ]),
+                                )),
+                            Expanded(
+                                flex: 2,
+                                child: Container(
+                                    color: Color(0xFF003F2B),
+                                    child: Center(
+                                      child: Text('Sala wolna do końca dnia',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 30,
+                                              fontWeight: FontWeight.bold
+                                          )),
+                                    )
+                                ))
+                          ])),
+                  Expanded(flex: 3, child: Container(child: AppoitmentBar())),
+
                                 child: Container(
                                     color: Color(0xFF20B878),
                                     child:  Center(
@@ -64,6 +135,7 @@ class _MainLayout extends State<MainLayout> {
                         //         style: TextStyle(color: Colors.black))),
                       )
                   ),
+
                 ])),
           ],
         ));
