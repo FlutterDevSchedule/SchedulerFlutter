@@ -1,12 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/calendar/v3.dart';
 import 'logged_in_page.dart';
 import 'sheduler_main_layout.dart';
-
-
-void main() async{
+import 'package:http/io_client.dart';
+import 'package:http/http.dart';
+import 'package:googleapis/calendar/v3.dart' as googleAPI;
+void main() async {
   runApp(const MyApp());
 }
 
@@ -19,7 +19,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(),
-      home: const MyHomePage(title: 'Flutter Demo Home Page',),
+      home: const MyHomePage(
+        title: 'Flutter Demo Home Page',
+      ),
     );
   }
 }
@@ -34,8 +36,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,20 +66,46 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future singIn() async {
     final user = await GoogleSignInApi.login();
-    if (user == null) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('sing in failed')));
-    } else {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-              builder: (context) => MainLayout(user: user)));
-    }
+    var test = user!.authHeaders;
+    test.then((item) {
+      final httpClient = getAuth.auth(item);
+      googleAPI.CalendarApi calendarAPI = googleAPI.CalendarApi(httpClient);
+      print(calendarAPI);
+      if (httpClient == null) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('sing in failed')));
+      } else {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => MainLayout(user: user,calendarApi:calendarAPI)));
+      }
+    });
+    // print(test);
+  }
+}
+
+class getAuth {
+  static GoogleAPIClient auth(user) {
+    return GoogleAPIClient(user!);
   }
 }
 
 class GoogleSignInApi {
-  static final _googleSignIn = GoogleSignIn(scopes: [CalendarApi.calendarScope]);
+  static final _googleSignIn =
+      GoogleSignIn(scopes: [CalendarApi.calendarScope]);
 
   static Future<GoogleSignInAccount?> login() => _googleSignIn.signIn();
 }
 
+class GoogleAPIClient extends IOClient {
+  Map<String, String> _headers;
+
+  GoogleAPIClient(this._headers) : super();
+
+  @override
+  Future<IOStreamedResponse> send(BaseRequest request) =>
+      super.send(request..headers.addAll(_headers));
+
+// @override
+// Future<Response> head(Uri url, { Map<String, String> headers}) =>
+//     super.head(url, headers: headers..addAll(_headers));
+}
