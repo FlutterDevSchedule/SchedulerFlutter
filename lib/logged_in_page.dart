@@ -60,44 +60,38 @@ class _LoggedInPage extends State<LoggedInPage> {
           // ),
 
           body: Container(
-        child: Column(
-            children: <Widget>[
+        child: Column(children: <Widget>[
           Row(children: <Widget>[
             Expanded(
               child: TextButton(
                   onPressed: () {
                     DatePicker.showDateTimePicker(context,
                         showTitleActions: true,
-                        minTime: DateTime(2019, 3, 5),
-                        maxTime: DateTime(2200, 6, 7),
-                        onChanged: (date) {
+                        minTime: DateTime.now(),
+                        maxTime: DateTime(2200, 6, 7), onChanged: (date) {
                       print('change $date');
                     }, onConfirm: (date) {
                       setState(() {
                         this.startTime = date;
                       });
-                    },
-                        currentTime: DateTime.now(),
-                        locale: LocaleType.en);
+                    }, currentTime: DateTime.now(), locale: LocaleType.en);
                   },
                   child: const Text(
                     'Event Start Time :',
-                    style: TextStyle(
-                        color: Colors.black,
-                    fontSize: 20),
+                    style: TextStyle(color: Colors.black, fontSize: 20),
                   )),
             ),
             Expanded(child: Text('$startTime'))
           ]),
-              Expanded(
-                  child: TextField(
-          controller: _eventName,
-          decoration: const InputDecoration(hintText: 'enter Event Name'),
-        ),
-        )
+          Expanded(
+
+            child: TextField(
+              decoration: const InputDecoration(hintText: 'enter Event Name'),
+              controller: _eventName,
+            ),
+          )
         ]),
       ));
-
 }
 
 class GoogleAPIClient extends IOClient {

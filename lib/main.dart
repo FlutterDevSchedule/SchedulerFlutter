@@ -66,11 +66,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future singIn() async {
     final user = await GoogleSignInApi.login();
-    var test = user!.authHeaders;
-    test.then((item) {
+    var authUser = user!.authHeaders;
+    authUser.then((item) {
       final httpClient = getAuth.auth(item);
       googleAPI.CalendarApi calendarAPI = googleAPI.CalendarApi(httpClient);
-      print(calendarAPI);
+
       if (httpClient == null) {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text('sing in failed')));

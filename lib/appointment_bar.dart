@@ -1,68 +1,59 @@
 import 'package:google_sign_in/google_sign_in.dart';
+
 // import 'package:googleapis/calendar/v3.dart';
-import 'package:room_app/calendar_event_list.dart';
+// import 'package:room_app/calendar_event_list.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:http/io_client.dart';
 import 'package:http/http.dart';
 import 'package:googleapis/calendar/v3.dart' as googleAPI;
+import 'calendar_controller.dart';
 
 class AppoitmentBar extends StatefulWidget {
   final GoogleSignInAccount user;
   final googleAPI.CalendarApi calendarApi;
 
-  const AppoitmentBar({Key? key,  required this.user, required this.calendarApi}) : super(key: key);
-
+  const AppoitmentBar({Key? key, required this.user, required this.calendarApi})
+      : super(key: key);
 
   @override
   State<AppoitmentBar> createState() => _AppoitmentBarState();
-
+// getDataSource()
 }
 
+// class Meeting {
+//   Meeting(this.eventName, this.from, this.to, this.background);
+//
+//   String eventName;
+//   DateTime from;
+//   DateTime to;
+//   Color background;
+// }
 class _AppoitmentBarState extends State<AppoitmentBar> {
-  EventManagment meetings = EventManagment();
-  List<Meeting> meetList = <Meeting>[];
-  // MeetingData test =  MeetingData();
-  // GoogleSignInAccount usr= this.user;
-  @override
+  GetCalendarData getData = GetCalendarData();
+  List<Meeting> meeting = <Meeting>[];
+
   void initState() {
     super.initState();
-    getDataSource();
+    getData.getDataSource(widget.calendarApi).then((test) => {
+          test.forEach((value) => {
+                setState(() {
+                  var meetToList= value.toList();
+                  meeting.add( (value.toList()).length == 4 ? Meeting('eventName', meetToList[1], meetToList[2], meetToList[3]) :  Meeting(meetToList[3], meetToList[1], meetToList[2], meetToList[4]));
+                  // meeting.add(value.toList());
+                })
+              })
+        });
   }
-  getDataSource() {
-    EventManagment meetings = EventManagment();
-    var test = meetings.getEvents(widget.calendarApi);
-    print('chuj');
-    DateTime? startTime;
-    DateTime? endTime;
-    String? title;
-    Color color;
 
-    var timeZoneOff = DateTime.now().timeZoneOffset;
-    print(test.then((item)=>{
-      meetList.clear(),
-      for(var elem in item.items! ){
-        // print(elem)
-        startTime = elem.start!.dateTime?.add(timeZoneOff),
-        endTime = elem.end!.dateTime?.add(timeZoneOff),
-        title = elem.summary,
-        color = Colors.deepOrange,
-        meetList.add(Meeting(title.toString(), DateTime.parse(startTime.toString()), DateTime.parse(endTime.toString()), color)),
-      },
-      setState(() {
-        print(meetList);
-        meetList = meetList;
-      })
-    }));
-    return test;
-  }
+
   @override
   Widget build(BuildContext context) {
-    // final test =
+
     return Scaffold(
       body: SfCalendar(
         view: CalendarView.day,
-        dataSource: MeetingDataSource(meetList),
+        dataSource: MeetingDataSource(meeting),
         // by default the month appointment display mode set as Indicator, we can
         // change the display mode as appointment using the appointment display
         // mode property
@@ -73,15 +64,11 @@ class _AppoitmentBarState extends State<AppoitmentBar> {
           title: TextButton(
         child: Text('baton', style: TextStyle(color: Colors.red)),
         onPressed: () {
-          getDataSource();
         },
       )),
     );
   }
-
-
 }
-
 
 // class MeetingData {
 //   static final _eventManagment = EventManagment();

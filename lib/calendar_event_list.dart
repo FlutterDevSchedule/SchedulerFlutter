@@ -81,47 +81,44 @@ getEvents(user) async {
     String? title;
     Color color;
 
-    List<Meeting> test = <Meeting>[];
+    // List<Meeting> test = <Meeting>[];
 
     return eventList;
-    print('chuj' + eventList.toString());
-    eventList.then((item)=>{
-      meeting.clear(),
-      for(var elem in item.items! ){
-      // print(elem)
-        startTime = elem.start!.dateTime?.add(timeZoneOff),
-        endTime = elem.end!.dateTime?.add(timeZoneOff),
-        title = elem.summary,
-        color = Colors.deepOrange,
-        meeting.add(Meeting(title.toString(), DateTime.parse(startTime.toString()), DateTime.parse(endTime.toString()), color)),
-      }
-    });
-    print(meeting);
-  return  meeting;
-    eventList.then(
-            (events) =>
-        {
-
-          events.items?.forEach((event) => {
-            // googleAPI.EventDateTime(dateTime: "${event.start}").
-            // print(event.toJson()),
-            //  eventTime = event.start!.dateTime,
-            // print("EVENT ${event.start!.dateTime?.add(timeZoneOff)} ${event.summary} To meet: ${toTime.difference(eventTime!).inMinutes}")
-            startTime = event.start!.dateTime?.add(timeZoneOff),
-            endTime = event.end!.dateTime?.add(timeZoneOff),
-            title = event.summary,
-            color = Colors.deepOrange,
-            meeting.add(Meeting(title.toString(), DateTime.parse(startTime.toString()), DateTime.parse(endTime.toString()), color)),
-            // print(meeting.length)
-
-          test= meeting
-          })
-        }
-
-
-    );
-
-        print(test.length);
+  //   eventList.then((item)=>{
+  //     meeting.clear(),
+  //     for(var elem in item.items! ){
+  //     // print(elem)
+  //       startTime = elem.start!.dateTime?.add(timeZoneOff),
+  //       endTime = elem.end!.dateTime?.add(timeZoneOff),
+  //       title = elem.summary,
+  //       color = Colors.deepOrange,
+  //       meeting.add(Meeting(title.toString(), DateTime.parse(startTime.toString()), DateTime.parse(endTime.toString()), color)),
+  //     }
+  //   });
+  //   print(meeting);
+  // return  meeting;
+  //   eventList.then(
+  //           (events) =>
+  //       {
+  //
+  //         events.items?.forEach((event) => {
+  //           // googleAPI.EventDateTime(dateTime: "${event.start}").
+  //           // print(event.toJson()),
+  //           //  eventTime = event.start!.dateTime,
+  //           // print("EVENT ${event.start!.dateTime?.add(timeZoneOff)} ${event.summary} To meet: ${toTime.difference(eventTime!).inMinutes}")
+  //           startTime = event.start!.dateTime?.add(timeZoneOff),
+  //           endTime = event.end!.dateTime?.add(timeZoneOff),
+  //           title = event.summary,
+  //           color = Colors.deepOrange,
+  //           meeting.add(Meeting(title.toString(), DateTime.parse(startTime.toString()), DateTime.parse(endTime.toString()), color)),
+  //           // print(meeting.length)
+  //
+  //
+  //         })
+  //       }
+  //
+  //
+  //   );
   }
 
 }
