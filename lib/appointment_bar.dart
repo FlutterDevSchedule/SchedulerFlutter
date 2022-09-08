@@ -21,32 +21,35 @@ class AppoitmentBar extends StatefulWidget {
 // getDataSource()
 }
 
-
 class _AppoitmentBarState extends State<AppoitmentBar> {
   GetCalendarData getData = GetCalendarData();
-  List<Meeting> meeting = <Meeting>[];
+  final List<Meeting> meeting = <Meeting>[];
 
   void initState() {
     super.initState();
     getAppointment();
-
   }
 
-  getAppointment(){
+  getAppointment() {
+    meeting.clear();
     getData.getDataSource(widget.calendarApi).then((test) => {
-      test.forEach((value) => {
-        setState(() {
-          var meetToList= value.toList();
-          meeting.add( (value.toList()).length == 4 ? Meeting('eventName', meetToList[1], meetToList[2], meetToList[3]) :  Meeting(meetToList[3], meetToList[1], meetToList[2], meetToList[4]));
-          // meeting.add(value.toList());
-        })
-      })
-    });
+          test.forEach((value) => {
+                setState(() {
+                  var meetToList = value.toList();
+                  meeting.add((value.toList()).length == 4
+                      ? Meeting('eventName', meetToList[1], meetToList[2],
+                          meetToList[3])
+                      : Meeting(meetToList[3], meetToList[1], meetToList[2],
+                          meetToList[4]));
+                  // meeting.add(value.toList());
+                })
+              })
+        });
+    print(meeting);
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: SfCalendar(
         view: CalendarView.day,
@@ -61,11 +64,30 @@ class _AppoitmentBarState extends State<AppoitmentBar> {
           title: TextButton(
         child: Text('baton', style: TextStyle(color: Colors.red)),
         onPressed: () {
-          getAppointment();
+          findNearMeet(DateTime.now(), meeting);
+          print(meeting);
         },
       )),
     );
   }
+}
+
+findNearMeet(now, meeting) {
+  var near = meeting.length> 0 ?meeting[0].from:null;
+  print(meeting.length);
+  for (var item in meeting) {
+    near == null ? near = item.from : null;
+    // print(now);
+    // print(item.from);
+    // print(now.compareTo(item.from)< 0);
+    if (now.compareTo(item.from)< 0) {
+      if (near.compareTo(item.from)< 0) {
+        near = item.from;
+      }
+    }
+  }
+  ;
+  print(near);
 }
 
 // class MeetingData {
