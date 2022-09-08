@@ -14,8 +14,8 @@ import 'package:bs_flutter_buttons/bs_flutter_buttons.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
-const List<String> hourList = <String>['8:00', '8:15', '8:30', '9:00',
-  '9:15', '9:30', '10:00', '10:15', '10:30', '11:00', '11:15', '11:30',
+const List<String> hourList = <String>['08:00', '08:15', '08:30', '09:00',
+  '09:15', '09:30', '10:00', '10:15', '10:30', '11:00', '11:15', '11:30',
   '12:00', '12:15', '12:30', '13:0', '13:15', '13:30', '14:00', '14:15',
   '14:30', '15:00', '15:15', '15:30', '16:00', '16:15', '16:30', '17:00',
   '17:15', '17:30'];
