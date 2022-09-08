@@ -64,7 +64,7 @@ class GoogleAPIClient extends IOClient {
   Future<IOStreamedResponse> send(BaseRequest request) =>
       super.send(request..headers.addAll(_headers));
 
-  // @override
-  // Future<Response> head(Uri url, { Map<String, String> headers}) =>
-  //     super.head(url, headers: headers..addAll(_headers));
+// @override
+// Future<Response> head(Uri url, { Map<String, String> headers}) =>
+//     super.head(url, headers: headers..addAll(_headers));
 }

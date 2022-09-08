@@ -5,17 +5,22 @@ import 'package:room_app/api/google_signin_api.dart';
 import 'package:http/io_client.dart';
 import 'package:http/http.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:room_app/appointment_bar.dart';
 import 'calendar_add_event.dart';
 import 'calendar_event_list.dart';
 import 'main.dart';
 import 'inserted_component.dart';
+import 'package:bs_flutter_buttons/bs_flutter_buttons.dart';
+import 'package:intl/intl.dart';
 
 class LoggedInPage extends StatefulWidget {
   final googleAPI.CalendarApi user;
 
+
   const LoggedInPage({
     Key? key,
     required this.user,
+
   }) : super(key: key);
 
   @override
@@ -23,6 +28,15 @@ class LoggedInPage extends StatefulWidget {
 }
 
 class _LoggedInPage extends State<LoggedInPage> {
+
+  summaryEvent(startTime, timeStamp){
+    DateTime start = startTime;
+    var endTime = start.add(Duration(minutes: timeStamp));
+    return endTime;
+
+  }
+
+  int meetingTimeRange = 0;
   AddEventToCallendar addToCallendar = AddEventToCallendar();
   ImportElement elementTest = ImportElement();
   EventManagment eventManagment = EventManagment();
@@ -30,36 +44,12 @@ class _LoggedInPage extends State<LoggedInPage> {
   DateTime endTime = DateTime.now().add(Duration(days: 1));
   TextEditingController _eventName = TextEditingController();
 
-  // getCredential(user) async{
-  //
-  // final GoogleAPIClient httpClient =
-  // GoogleAPIClient(await user.authHeaders);
-  // return httpClient;
-  // // googleAPI.CalendarApi calendarAPI = googleAPI.CalendarApi(httpClient);
-  // // googleAPI.CalendarApi calendarAPI = googleAPI.CalendarApi(httpClient);
-  // // return googleAPI.CalendarApi(httpClient);
-  // }
+
 
   @override
   Widget build(BuildContext context) => Scaffold(
-          // appBar: AppBar(
-          //   centerTitle: true,
-          //   actions: [
-          // TextButton(
-          //     onPressed: () async {
-          //       Navigator.of(context).pushReplacement(MaterialPageRoute(
-          //         builder: (context) => MyHomePage(
-          //           title: '',
-          //         ),
-          //       ));
-          //     },
-          //     child: Text('logout'),
-          //     style: TextButton.styleFrom(primary: Colors.amber)),
-          // , style: TextStyle(color: Colors.white),))
-          //   ],
-          // ),
 
-          body: Container(
+      body: Container(
         child: Column(children: <Widget>[
           Row(children: <Widget>[
             Expanded(
@@ -67,32 +57,141 @@ class _LoggedInPage extends State<LoggedInPage> {
                   onPressed: () {
                     DatePicker.showDateTimePicker(context,
                         showTitleActions: true,
-                        minTime: DateTime.now(),
+                        minTime: DateTime(2019, 3, 5),
                         maxTime: DateTime(2200, 6, 7), onChanged: (date) {
-                      print('change $date');
-                    }, onConfirm: (date) {
-                      setState(() {
-                        this.startTime = date;
-                      });
-                    }, currentTime: DateTime.now(), locale: LocaleType.en);
+                          print('change $date');
+                        }, onConfirm: (date) {
+                          setState(() {
+                            this.startTime = date;
+                          });
+                        }, currentTime: DateTime.now(), locale: LocaleType.en);
                   },
                   child: const Text(
                     'Event Start Time :',
                     style: TextStyle(color: Colors.black, fontSize: 20),
                   )),
             ),
-            Expanded(child: Text('$startTime'))
+            Expanded(child: Text('$startTime')),
+            Expanded(
+              child: TextButton(
+                  onPressed: () {
+
+                  },
+                  child: const Text(
+                    'Event End Time :',
+                    style: TextStyle(color: Colors.black, fontSize: 20),
+                  )),
+            ),
+            Expanded(child: Text('$endTime')),
           ]),
           Expanded(
-
             child: TextField(
-              decoration: const InputDecoration(hintText: 'enter Event Name'),
               controller: _eventName,
+              decoration: const InputDecoration(hintText: 'enter Event Name'),
             ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+
+              BsButton(
+                margin: EdgeInsets.only(right: 10.0, bottom: 10.0),
+                onPressed: () {
+                  setState(() {
+                    meetingTimeRange = 15;
+
+                    endTime = summaryEvent(startTime, meetingTimeRange);
+                  });
+                },
+                style: BsButtonStyle.success,
+                label: Text('15 min'),
+              ),
+              BsButton(
+                margin: EdgeInsets.only(right: 10.0, bottom: 10.0),
+                onPressed: () {
+                  setState(() {
+                    meetingTimeRange = 30;
+                    endTime = summaryEvent(startTime, meetingTimeRange);
+                  });
+
+                },
+                style: BsButtonStyle.success,
+                label: Text('30 min'),
+              ),
+              BsButton(
+                margin:
+                EdgeInsets.only(right: 10.0, bottom: 10.0),
+                onPressed: () {
+                  setState(() {
+                    meetingTimeRange = 45;
+                    endTime = summaryEvent(startTime, meetingTimeRange);
+                  });
+                },
+                style: BsButtonStyle.success,
+                label: Text('45 min'),
+              ),
+
+              BsButton(
+                margin:
+                EdgeInsets.only(right: 10.0, bottom: 10.0),
+                onPressed: () {
+                  setState(() {
+                    meetingTimeRange = 60;
+                    endTime = summaryEvent(startTime, meetingTimeRange);
+                  });
+                },
+                style: BsButtonStyle.success,
+                label: Text('1 h'),
+              ),
+              BsButton(
+                margin:
+                EdgeInsets.only(right: 10.0, bottom: 10.0),
+                onPressed: () {
+                  setState(() {
+                    meetingTimeRange = 90;
+                    endTime = summaryEvent(startTime, meetingTimeRange);
+                  });
+                },
+                style: BsButtonStyle.success,
+                label: Text('1:30 h'),
+              ),
+              BsButton(
+                margin:
+                EdgeInsets.only(right: 10.0, bottom: 10.0),
+                onPressed: () {
+                  setState(() {
+                    meetingTimeRange = 120;
+                    endTime = summaryEvent(startTime, meetingTimeRange);
+                  });
+                },
+                style: BsButtonStyle.success,
+                label: Text('2 h'),
+              ),
+            ],
+          ),
+          Column(
+              children: <Widget>[
+                BsButton(
+                  margin:
+                  EdgeInsets.only(right: 10.0, bottom: 10.0),
+                  onPressed: () {
+                    var eventName = _eventName.text;
+
+                    if(eventName == ''){
+                      eventName = 'Meeting';
+                    }
+                    addToCallendar.calendarInser(eventName, startTime, endTime, widget.user );
+                    Navigator.pop(context, 'OK');
+                  },
+                  style: BsButtonStyle.outlinePrimary,
+                  label: Text('Add Event'),
+                ),
+              ]
           )
         ]),
       ));
 }
+
 
 class GoogleAPIClient extends IOClient {
   Map<String, String> _headers;

@@ -40,6 +40,7 @@ dependencies:
   jiffy: any
   syncfusion_flutter_calendar: ^20.2.46
   indexed: ^0.0.8
+  bs_flutter_buttons: ^1.2.8
 
 
 
