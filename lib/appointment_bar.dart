@@ -21,31 +21,28 @@ class AppoitmentBar extends StatefulWidget {
 // getDataSource()
 }
 
-// class Meeting {
-//   Meeting(this.eventName, this.from, this.to, this.background);
-//
-//   String eventName;
-//   DateTime from;
-//   DateTime to;
-//   Color background;
-// }
+
 class _AppoitmentBarState extends State<AppoitmentBar> {
   GetCalendarData getData = GetCalendarData();
   List<Meeting> meeting = <Meeting>[];
 
   void initState() {
     super.initState();
-    getData.getDataSource(widget.calendarApi).then((test) => {
-          test.forEach((value) => {
-                setState(() {
-                  var meetToList= value.toList();
-                  meeting.add( (value.toList()).length == 4 ? Meeting('eventName', meetToList[1], meetToList[2], meetToList[3]) :  Meeting(meetToList[3], meetToList[1], meetToList[2], meetToList[4]));
-                  // meeting.add(value.toList());
-                })
-              })
-        });
+    getAppointment();
+
   }
 
+  getAppointment(){
+    getData.getDataSource(widget.calendarApi).then((test) => {
+      test.forEach((value) => {
+        setState(() {
+          var meetToList= value.toList();
+          meeting.add( (value.toList()).length == 4 ? Meeting('eventName', meetToList[1], meetToList[2], meetToList[3]) :  Meeting(meetToList[3], meetToList[1], meetToList[2], meetToList[4]));
+          // meeting.add(value.toList());
+        })
+      })
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +61,7 @@ class _AppoitmentBarState extends State<AppoitmentBar> {
           title: TextButton(
         child: Text('baton', style: TextStyle(color: Colors.red)),
         onPressed: () {
+          getAppointment();
         },
       )),
     );
