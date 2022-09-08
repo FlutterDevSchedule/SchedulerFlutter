@@ -21,14 +21,7 @@ class AppoitmentBar extends StatefulWidget {
 // getDataSource()
 }
 
-// class Meeting {
-//   Meeting(this.eventName, this.from, this.to, this.background);
-//
-//   String eventName;
-//   DateTime from;
-//   DateTime to;
-//   Color background;
-// }
+
 class _AppoitmentBarState extends State<AppoitmentBar> {
   GetCalendarData getData = GetCalendarData();
   List<Meeting> meeting = <Meeting>[];
