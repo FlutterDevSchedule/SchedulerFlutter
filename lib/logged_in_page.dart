@@ -36,10 +36,9 @@ class LoggedInPage extends StatefulWidget {
 class _LoggedInPage extends State<LoggedInPage> {
 
   summaryEvent(startTime, timeStamp){
-    DateTime start = startTime;
+    DateTime start = getStartEventFullDate();
     var endTime = start.add(Duration(minutes: timeStamp));
     return endTime;
-
   }
 
   int meetingTimeRange = 0;
@@ -54,18 +53,11 @@ class _LoggedInPage extends State<LoggedInPage> {
 
   getStartEventFullDate() {
     print('$choiceDay $firstElementList');
-    print(DateTime.parse('$choiceDay $firstElementList'));
-  }
+    startTime = DateTime.parse('$choiceDay $firstElementList');
 
-  // getCredential(user) async{
-  //
-  // final GoogleAPIClient httpClient =
-  // GoogleAPIClient(await user.authHeaders);
-  // return httpClient;
-  // // googleAPI.CalendarApi calendarAPI = googleAPI.CalendarApi(httpClient);
-  // // googleAPI.CalendarApi calendarAPI = googleAPI.CalendarApi(httpClient);
-  // // return googleAPI.CalendarApi(httpClient);
-  // }
+    return startTime;
+
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -73,37 +65,9 @@ class _LoggedInPage extends State<LoggedInPage> {
       body: Container(
         child: Column(children: <Widget>[
           Row(children: <Widget>[
-            Expanded(
-              child: TextButton(
-                  onPressed: () {
-                    DatePicker.showDateTimePicker(context,
-                        showTitleActions: true,
-                        minTime: DateTime(2019, 3, 5),
-                        maxTime: DateTime(2200, 6, 7), onChanged: (date) {
-                          print('change $date');
-                        }, onConfirm: (date) {
-                          setState(() {
-                            this.startTime = date;
-                          });
-                        }, currentTime: DateTime.now(), locale: LocaleType.en);
-                  },
-                  child: const Text(
-                    'Event Start Time :',
-                    style: TextStyle(color: Colors.black, fontSize: 20),
-                  )),
-            ),
-            Expanded(child: Text('$startTime')),
-            Expanded(
-              child: TextButton(
-                  onPressed: () {
 
-                  },
-                  child: const Text(
-                    'Event End Time :',
-                    style: TextStyle(color: Colors.black, fontSize: 20),
-                  )),
-            ),
-            Expanded(child: Text('$endTime')),
+
+
             Expanded(child: Text('Choice day :')),
             Expanded(child: TextButton(
                 onPressed: () {
@@ -123,8 +87,8 @@ class _LoggedInPage extends State<LoggedInPage> {
                       onChanged: (date) {
                       setState(() {
                         var year = date.year.toString();
-                        var month = date.month.toString();
-                        var day = date.day.toString();
+                        var month = (date.month < 10 ? '0${date.month.toString()}': date.month.toString());
+                        var day = (date.day < 10 ? '0${date.day.toString()}': date.day.toString());
                         String fullData = '$year-$month-$day';
                         choiceDay = fullData;
                       });
@@ -133,6 +97,7 @@ class _LoggedInPage extends State<LoggedInPage> {
                         //print('confirm $date');
                       }, currentTime: DateTime.now(), locale: LocaleType.en);
                 },
+
                 child: Text(
                   '$choiceDay',
                   style: TextStyle(color: Colors.blue),
@@ -157,14 +122,9 @@ class _LoggedInPage extends State<LoggedInPage> {
                   );
                 }).toList(),
               ),
-            )
-          ]),
-          Expanded(
-            child: TextField(
-              controller: _eventName,
-              decoration: const InputDecoration(hintText: 'enter Event Name'),
             ),
-          ),
+            Expanded(child: Text('$endTime')),
+          ]),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -244,6 +204,13 @@ class _LoggedInPage extends State<LoggedInPage> {
               ),
             ],
           ),
+          Expanded(
+            child: TextField(
+              controller: _eventName,
+              decoration: const InputDecoration(hintText: 'enter Event Name'),
+            ),
+          ),
+
           Column(
               children: <Widget>[
                 BsButton(
@@ -262,17 +229,8 @@ class _LoggedInPage extends State<LoggedInPage> {
                   label: Text('Add Event'),
                 ),
               ]
-          )
-          Expanded(
-            child: TextField(
-              controller: _eventName,
-              decoration: const InputDecoration(hintText: 'enter Event Name'),
-            ),
           ),
-          Expanded(child: TextButton(
-            onPressed: () {getStartEventFullDate();},
-            child: Text('Test'),
-          ))
+
         ]),
       ));
 
