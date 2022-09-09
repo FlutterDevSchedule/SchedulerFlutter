@@ -68,10 +68,10 @@ class EventManagment {
     print(timeZone);
     print(timeZoneOff);
     DateTime startDay = Jiffy(toTime)
-        .startOf(Units.DAY)
+        .startOf(Units.MONTH)
         .dateTime;
     DateTime endDay = Jiffy(toTime)
-        .endOf(Units.DAY)
+        .endOf(Units.MONTH)
         .dateTime;
     var eventList = calendarAPI.events.list(
         'primary', timeMax: endDay.toUtc(), timeMin: startDay.toUtc());

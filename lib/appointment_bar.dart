@@ -33,6 +33,7 @@ class _AppoitmentBarState extends State<AppoitmentBar> {
   }
 
   getAppointment(){
+    meeting.clear();
     getData.getDataSource(widget.calendarApi).then((test) => {
       test.forEach((value) => {
         setState(() {

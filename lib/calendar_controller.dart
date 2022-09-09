@@ -5,6 +5,21 @@ import 'package:jiffy/jiffy.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class GetCalendarData {
+   static generateTimeList(){
+    List<String> timeList = <String>[];
+    for(var i = 7 ; i<19; i++){
+      for(var j =0 ; j<4;j++){
+
+        var hour = (i < 10 ? ('0$i') : i).toString();
+        var min = (j == 0 ? ('00') : (j) *15).toString();
+        var value = '$hour:$min';
+        timeList.add(value);
+      }
+
+    };
+    return timeList;
+    // print(timeList);
+  }
   Future getEventList(calendarAuth) {
     googleAPI.CalendarApi calendarAPI = calendarAuth;
     var toTime = DateTime.now();
@@ -12,8 +27,8 @@ class GetCalendarData {
     var timeZoneOff = DateTime.now().timeZoneOffset;
     print(timeZone);
     print(timeZoneOff);
-    DateTime startDay = Jiffy(toTime).startOf(Units.DAY).dateTime;
-    DateTime endDay = Jiffy(toTime).endOf(Units.DAY).dateTime;
+    DateTime startDay = Jiffy(toTime).startOf(Units.MONTH).dateTime;
+    DateTime endDay = Jiffy(toTime).endOf(Units.MONTH).dateTime;
 
     var eventList = calendarAPI.events
         .list('primary', timeMax: endDay.toUtc(), timeMin: startDay.toUtc())
@@ -40,8 +55,8 @@ class GetCalendarData {
     var timeZoneOff = DateTime.now().timeZoneOffset;
     print(timeZone);
     print(timeZoneOff);
-    DateTime startDay = Jiffy(toTime).startOf(Units.DAY).dateTime;
-    DateTime endDay = Jiffy(toTime).endOf(Units.DAY).dateTime;
+    DateTime startDay = Jiffy(toTime).startOf(Units.MONTH).dateTime;
+    DateTime endDay = Jiffy(toTime).endOf(Units.MONTH).dateTime;
 
     var eventList = calendarAPI.events
         .list('primary', timeMax: endDay.toUtc(), timeMin: startDay.toUtc());

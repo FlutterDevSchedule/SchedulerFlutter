@@ -1,25 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/calendar/v3.dart' as googleAPI;
-import 'package:room_app/api/google_signin_api.dart';
 import 'package:http/io_client.dart';
 import 'package:http/http.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:room_app/appointment_bar.dart';
 import 'calendar_add_event.dart';
 import 'calendar_event_list.dart';
 import 'main.dart';
 import 'inserted_component.dart';
 import 'package:bs_flutter_buttons/bs_flutter_buttons.dart';
-import 'package:intl/intl.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'calendar_controller.dart';
 
-const List<String> hourList = <String>['08:00', '08:15', '08:30', '09:00',
-  '09:15', '09:30', '10:00', '10:15', '10:30', '11:00', '11:15', '11:30',
-  '12:00', '12:15', '12:30', '13:0', '13:15', '13:30', '14:00', '14:15',
-  '14:30', '15:00', '15:15', '15:30', '16:00', '16:15', '16:30', '17:00',
-  '17:15', '17:30'];
 
+
+List<String> hourList = GetCalendarData.generateTimeList();
 
 class LoggedInPage extends StatefulWidget {
   final googleAPI.CalendarApi user;
@@ -34,7 +27,20 @@ class LoggedInPage extends StatefulWidget {
 }
 
 class _LoggedInPage extends State<LoggedInPage> {
-
+  GetCalendarData getData = GetCalendarData();
+  String _string = "not set yet";
+  set string(String val) =>{
+    print(_string),
+    };
+  final controller = TextEditingController();
+  _test(){
+    print('wywołano po dodanou');
+    return null;
+  }
+  void initState(){
+    super.initState();
+    // controller.addListener(_test);
+  }
   summaryEvent(startTime, timeStamp){
     DateTime start = getStartEventFullDate();
     var endTime = start.add(Duration(minutes: timeStamp));
@@ -42,7 +48,7 @@ class _LoggedInPage extends State<LoggedInPage> {
   }
 
   int meetingTimeRange = 0;
-  AddEventToCallendar addToCallendar = AddEventToCallendar();
+  // AddEventToCallendar addToCallendar = AddEventToCallendar();
   ImportElement elementTest = ImportElement();
   EventManagment eventManagment = EventManagment();
   DateTime startTime = DateTime.now();
@@ -222,7 +228,12 @@ class _LoggedInPage extends State<LoggedInPage> {
                     if(eventName == ''){
                       eventName = 'Meeting';
                     }
-                    addToCallendar.calendarInser(eventName, startTime, endTime, widget.user );
+                    new AddEventToCallendar((val) => setState(() =>  {})).calendarInser(eventName, startTime, endTime, widget.user );
+                    // AddEventToCallendar.calendarInser(title, startTime, endTime, user, click)
+                    // AddEventToCallendar:(){
+
+
+                    // AddEventToCallendar.calendarInser(eventName, startTime, endTime, widget.user );
                     Navigator.pop(context, 'OK');
                   },
                   style: BsButtonStyle.outlinePrimary,

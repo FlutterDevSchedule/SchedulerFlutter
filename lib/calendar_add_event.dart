@@ -1,5 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
+import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:http/io_client.dart';
 import 'package:http/http.dart';
 import 'appointment_bar.dart';
@@ -7,12 +9,15 @@ import 'logged_in_page.dart';
 import 'main.dart';
 
 import 'package:googleapis/calendar/v3.dart' as googleAPI;
+typedef void callBack(String val);
 
-class AddEventToCallendar {
-  calendarInser(title, startTime, endTime, user) async {
+class AddEventToCallendar extends StatelessWidget {
+  final callBack childCallback;
+  AddEventToCallendar(this.childCallback);
+
+
+  calendarInser(title, startTime, endTime, user,)  {
     if (user != null) {
-      // final GoogleAPIClient httpClient = GoogleAPIClient(await user.authHeaders);
-      // googleAPI.CalendarApi calendarAPI = googleAPI.CalendarApi(httpClient);
       googleAPI.CalendarApi calendarAPI = user;
       String calendarId = "primary";
       googleAPI.Event event = googleAPI.Event();
@@ -33,13 +38,16 @@ class AddEventToCallendar {
 
       event.end = end;
 
-      event.attendees = [googleAPI.EventAttendee(email: 'd.barchanski@gmail.com')];
-
+      event.attendees = [
+        googleAPI.EventAttendee(email: 'd.barchanski@gmail.com')
+      ];
 
       try {
         calendarAPI.events.insert(event, calendarId).then((value) {
           print("ADDEDDD_________________${value.status}");
           if (value.status == "confirmed") {
+            childCallback('testxD');
+            // childCallback('test');
             // AppoitmentBar test = const AppoitmentBar (user: null,);
             // _AppoitmentBarState test = _AppoitmentBarState
             // test.getDataSource();
@@ -53,6 +61,9 @@ class AddEventToCallendar {
       }
     }
   }
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
 class GoogleAPIClient extends IOClient {
